@@ -72,17 +72,17 @@ const faqData: FaqData[] = [
       'A: Yes, the smartphone app needed to use the Laser Strike System is available for all Apple and Android phones.',
   },
   {
-    question: 'Q: Does this holster work with slide-mounted optics (Red dots, etc)?',
+    question: 'Q: Will I Need to Rerack After Every Shot?',
     answer: (
       <div>
         <p>
           A: It depends, if you are using a single and double action weapon you can manually reset
           the hammer without the need to rerack the slide for a reset. Internally hammer-fired guns
-          like Glocks will require re-racking between each shot.
+          like Glocks will re-racking between each shot.
         </p>
         <p>
           If you understand that proper dryfire is not affected with re-racking, this is a non-issue
-          and won't be creating any bad habits.
+          and won’t be creating any bad habits.
         </p>
       </div>
     ),
