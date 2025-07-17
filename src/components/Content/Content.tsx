@@ -2,7 +2,7 @@ import React, { useCallback } from 'react';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import CallToActionButton from '../UI/CallToActionButton';
-import PackageSelection from '../PackageSelection/PackageSelection';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 const VidalyticsVideo = dynamic(() => import('../VidalyticsVideo/VidalyticsVideo'), {
   ssr: false,
@@ -15,16 +15,22 @@ interface ContentProps {
 const Content: React.FC<ContentProps> = ({
   buttonText = 'Give Me My Laser Strike System! + FREE Range Bag!',
 }) => {
-  const scrollToPackages = useCallback(() => {
-    const packagesSection = document.getElementById('package-selection');
-    if (packagesSection) {
-      packagesSection.scrollIntoView({ behavior: 'smooth' });
-    }
-  }, []);
+  const searchParams = useSearchParams();
+
+  const getCheckoutUrl = (baseUrl: string) => {
+    const params = new URLSearchParams(searchParams.toString());
+    const queryString = params.toString();
+    return `${baseUrl}${queryString ? `?${queryString}` : ''}`;
+  };
   return (
     <div className="min-h-screen bg-[url('/bg.webp')] bg-cover bg-fixed bg-repeat bg-center">
       <div className="sticky top-0 left-0 right-0 w-full bg-[#2afe4e] text-black text-center py-2 px-4 text-[1.3rem] sm:text-[1.5rem] font-semibold z-50 shadow-md">
-        Limited Gift! Get a <span className="line-through">$50</span> VNSH Range Bag FREE!
+        <a 
+          href={getCheckoutUrl('https://secure.vnsh.com/vnls1frb1/checkout')}
+          className="text-black no-underline hover:no-underline hover:text-black"
+        >
+          Limited Gift! Get a <span className="line-through">$50</span> VNSH Range Bag FREE!
+        </a>
       </div>
       <div className="w-full max-w-[1240px] mx-auto px-5 py-4 lg:px-20 bg-white">
         <div className="space-y-8">
@@ -45,7 +51,7 @@ const Content: React.FC<ContentProps> = ({
           </div>
 
           <div className="text-center my-8">
-            <CallToActionButton onClick={scrollToPackages} />
+            <CallToActionButton />
           </div>
           <div className="w-full md:w-[80%] mx-auto max-w-[1120px] px-4 md:px-0">
             <Image
@@ -139,7 +145,7 @@ const Content: React.FC<ContentProps> = ({
             <p className="content-paragraph">That's the simple reason why…</p>
           </div>
           <div className="text-center my-8">
-            <CallToActionButton onClick={scrollToPackages} />
+            <CallToActionButton />
           </div>
           <hr className="my-8 border-t border-gray-200 w-11/12 mx-auto" />
           <header className="text-center py-1 my-6">
@@ -206,7 +212,7 @@ const Content: React.FC<ContentProps> = ({
             <p className="text-base md:text-lg leading-relaxed">Even better though…</p>
           </div>
           <div className="text-center my-8">
-            <CallToActionButton onClick={scrollToPackages} />
+            <CallToActionButton />
           </div>
           <div className="text-center my-8">
             <p className="text-xl md:text-xl font-semibold leading-normal text-red-600">
@@ -603,7 +609,7 @@ const Content: React.FC<ContentProps> = ({
               </div>
             </div>
             <div className="text-center my-8">
-              <CallToActionButton onClick={scrollToPackages} />
+              <CallToActionButton />
             </div>
             <div className="text-center my-8">
               <p className="text-xl md:text-1xl font-semibold leading-normal md:leading-tight text-red-600">
@@ -660,7 +666,7 @@ const Content: React.FC<ContentProps> = ({
             <p>Plus… get a FREE VNSH Range Bag with it…</p>
             <p id="package-selection">Then you owe it to yourself to grab this deal now!</p>
             <div className="text-center my-8">
-              <CallToActionButton onClick={scrollToPackages} />
+              <CallToActionButton />
             </div>
             <div className="text-center my-8">
               <p className="text-xl md:text-1xl font-semibold leading-normal md:leading-tight text-red-600">

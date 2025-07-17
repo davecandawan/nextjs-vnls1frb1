@@ -27,9 +27,9 @@ const FaqItem: React.FC<FaqItemProps> = ({ question, answer, isOpen, onClick }) 
           }
         }}
       >
-        <span className="text-blue-600 font-bold text-left text-lg md:text-xl">{question}</span>
+        <span className="text-[#007bff] font-bold text-left text-lg md:text-xl">{question}</span>
         <span
-          className="ml-4 text-blue-600 transition-transform duration-200"
+          className="ml-4 text-[#007bff] transition-transform duration-200"
           style={{ transform: isOpen ? 'rotate(180deg)' : 'rotate(0)' }}
           aria-hidden="true"
         >
