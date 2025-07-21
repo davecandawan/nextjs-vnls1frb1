@@ -14,9 +14,9 @@ interface FaqData {
 
 const FaqItem: React.FC<FaqItemProps> = ({ question, answer, isOpen, onClick }) => {
   return (
-    <div className="mb-2.5 rounded-lg overflow-hidden shadow-sm transition-shadow hover:shadow-md">
+    <div className="mb-2.5 overflow-hidden">
       <div
-        className="flex justify-between items-center bg-gray-100 p-4 cursor-pointer hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        className="flex justify-between items-center bg-[#f2f2f2] p-[7px] cursor-pointer focus:outline-none focus:ring-2 focus:ring-blue-500"
         onClick={onClick}
         role="button"
         tabIndex={0}
@@ -98,7 +98,7 @@ const Faqs: React.FC = () => {
 
   return (
     <div className="w-full max-w-5xl mx-auto">
-      <div className="space-y-3">
+      <div className="space-y-2">
         {faqData.map((item, index) => (
           <FaqItem
             key={index}

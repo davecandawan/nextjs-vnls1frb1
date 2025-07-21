@@ -25,7 +25,7 @@ const Content: React.FC<ContentProps> = ({
   return (
     <div className="min-h-screen bg-[url('/bg.webp')] bg-cover bg-fixed bg-repeat bg-center">
       <div className="sticky top-0 left-0 right-0 w-full bg-[#2afe4e] text-black text-center py-2 px-4 text-[1.3rem] sm:text-[1.5rem] font-semibold z-50 shadow-md">
-        <a 
+        <a
           href={getCheckoutUrl('https://secure.vnsh.com/vnls1frb1/checkout')}
           className="text-black no-underline hover:no-underline hover:text-black"
         >
@@ -34,7 +34,7 @@ const Content: React.FC<ContentProps> = ({
       </div>
       <div className="w-full max-w-[1240px] mx-auto px-5 py-4 lg:px-20 bg-white">
         <div className="space-y-8">
-          <header className="text-center pb-1 -mb-6 md:mb-0 md:pt-4">
+          <header className="text-center pb-1 -mb-6 md:mb-0 pt-0 md:pt-0">
             <h1 className="text-xl sm:text-3xl md:text-4xl font-medium leading-snug md:leading-tight mb-0 px-2">
               <div>
                 Cutting-Edge Dry Fire System Maximizes Accuracy With{' '}
@@ -46,7 +46,7 @@ const Content: React.FC<ContentProps> = ({
             </h1>
           </header>
 
-          <div className="w-full max-w-4xl mx-auto -mt-2 md:mt-0">
+          <div className="w-full max-w-4xl mx-auto -mt-16 md:-mt-12">
             <VidalyticsVideo />
           </div>
 

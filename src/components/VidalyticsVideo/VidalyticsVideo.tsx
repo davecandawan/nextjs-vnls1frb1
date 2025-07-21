@@ -71,7 +71,7 @@ const VidalyticsVideo = () => {
   }, [scriptReady]);
 
   return (
-    <div className="w-full max-w-[1000px] mx-auto relative rounded-lg overflow-hidden shadow-md bg-black aspect-video">
+    <div className="w-full max-w-[1000px] mx-auto relative overflow-hidden shadow-md bg-black aspect-video">
       {/* Load the Vidalytics loader script */}
       <Script
         id="vidalytics-loader"

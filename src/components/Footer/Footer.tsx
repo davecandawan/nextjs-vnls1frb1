@@ -10,17 +10,21 @@ interface FooterColumnProps {
 }
 
 const FooterColumn: React.FC<FooterColumnProps> = ({ imgUrl, title, text }) => {
+  const isSecurePayment = imgUrl.includes('secure_payment');
+  const imageHeight = isSecurePayment ? '120px' : '160px';
+  const maxImageWidth = isSecurePayment ? '200px' : '280px';
+
   return (
-    <div className="flex-1 min-w-[250px] max-w-[350px] p-4 text-center">
-      <div className="h-full flex flex-col items-center">
-        <div className="flex items-center justify-center w-full" style={{ height: '120px' }}>
-          <div className="relative w-full h-full max-w-[200px]">
+    <div className="flex-1 min-w-[250px] max-w-[350px] p-4 text-center flex flex-col">
+      <div className="flex flex-col items-center" style={{ minHeight: '160px' }}>
+        <div className="flex items-center justify-center w-full" style={{ height: imageHeight }}>
+          <div className="relative w-full h-full" style={{ maxWidth: maxImageWidth }}>
             <Image
               src={imgUrl}
               alt={title}
-              width={200}
-              height={120}
-              className="object-contain w-full h-full"
+              width={isSecurePayment ? 200 : 280}
+              height={isSecurePayment ? 120 : 160}
+              className="object-contain w-full h-full mx-auto"
               quality={100}
               priority
               unoptimized={process.env.NODE_ENV !== 'production'}
@@ -28,11 +32,17 @@ const FooterColumn: React.FC<FooterColumnProps> = ({ imgUrl, title, text }) => {
                 objectFit: 'contain',
                 imageRendering: 'crisp-edges',
               }}
-              sizes="(max-width: 768px) 150px, 200px"
+              sizes={
+                isSecurePayment
+                  ? '(max-width: 768px) 150px, 200px'
+                  : '(max-width: 768px) 200px, 280px'
+              }
             />
           </div>
         </div>
-        <h3 className="text-lg font-bold mt-4 mb-2 text-black whitespace-nowrap">{title}</h3>
+      </div>
+      <div className="mt-2 flex-1 flex flex-col">
+        <h3 className="text-lg font-extrabold mb-2 text-black whitespace-nowrap">{title}</h3>
         <p className="text-black !text-[16px] !leading-[1.2] font-normal tracking-normal">{text}</p>
       </div>
     </div>
@@ -84,7 +94,7 @@ const Footer: React.FC = () => {
 
   return (
     <footer className="w-full mt-2 bg-white">
-      <div className="py-8 text-black bg-white">
+      <div className="pb-[34px] text-black bg-white">
         <div className="py-4">
           <div className="box-border min-w-[250px] max-w-6xl mx-auto px-4 flex flex-wrap justify-around gap-6">
             <FooterColumn
@@ -104,19 +114,23 @@ const Footer: React.FC = () => {
             />
           </div>
         </div>
-
         <div className="flex flex-col items-center">
-          <div className="text-center text-black">
-            © <b>2025 VNSH.com</b> All Rights Reserved.
+          <div className="text-lg text-center text-black mb-0 sm:-mb-2">
+            © 2025 VNSH.com All Rights Reserved.
           </div>
-          <FooterLinks loadInfo={loadInfo} />
+          <div className="mt-2 sm:mt-0">
+            <FooterLinks loadInfo={loadInfo} />
+          </div>
         </div>
       </div>
 
       {showModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 z-50 p-4 pt-20" onClick={closeModal}>
+        <div
+          className="fixed inset-0 bg-black bg-opacity-50 z-50 p-4 pt-20 flex items-start justify-center"
+          onClick={closeModal}
+        >
           <div
-            className="bg-white rounded-lg max-w-2xl w-full max-h-[80vh] overflow-y-auto relative p-6 mx-auto"
+            className="bg-white rounded-lg max-w-6xl w-full max-h-[80vh] overflow-y-auto relative p-2"
             onClick={e => e.stopPropagation()}
           >
             <button
