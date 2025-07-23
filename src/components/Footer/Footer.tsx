@@ -10,33 +10,43 @@ interface FooterColumnProps {
 }
 
 const FooterColumn: React.FC<FooterColumnProps> = ({ imgUrl, title, text }) => {
-  const isSecurePayment = imgUrl.includes('secure_payment');
-  const imageHeight = isSecurePayment ? '120px' : '160px';
-  const maxImageWidth = isSecurePayment ? '200px' : '280px';
+  // Define image dimensions based on the image type
+  const imageConfig = {
+    'MoneyBack.avif': { width: 240, height: 144 }, // Further reduced size
+    'USFlag.avif': { width: 240, height: 144 }, // Further reduced size
+    'vnsh_secure_payment_footer.webp': { width: 400, height: 120 }, // Kept original size
+  };
+
+  // Find the matching config or use defaults
+  const imageKey = Object.keys(imageConfig).find(key => imgUrl.includes(key));
+  const { width, height } = imageKey
+    ? imageConfig[imageKey as keyof typeof imageConfig]
+    : { width: 400, height: 240 };
 
   return (
-    <div className="flex-1 min-w-[250px] max-w-[350px] p-4 text-center flex flex-col">
+    <div className="flex-1 min-w-[250px] max-w-[400px] p-4 text-center flex flex-col">
       <div className="flex flex-col items-center" style={{ minHeight: '160px' }}>
-        <div className="flex items-center justify-center w-full" style={{ height: imageHeight }}>
-          <div className="relative w-full h-full" style={{ maxWidth: maxImageWidth }}>
+        <div className="relative w-full" style={{ height: `${height}px` }}>
+          <div
+            className="relative w-full h-full"
+            style={{ maxWidth: `${width}px`, margin: '0 auto' }}
+          >
             <Image
               src={imgUrl}
               alt={title}
-              width={isSecurePayment ? 200 : 280}
-              height={isSecurePayment ? 120 : 160}
+              width={width}
+              height={height}
               className="object-contain w-full h-full mx-auto"
               quality={100}
               priority
-              unoptimized={process.env.NODE_ENV !== 'production'}
               style={{
                 objectFit: 'contain',
                 imageRendering: 'crisp-edges',
+                width: '100%',
+                height: 'auto',
+                maxHeight: '100%',
               }}
-              sizes={
-                isSecurePayment
-                  ? '(max-width: 768px) 150px, 200px'
-                  : '(max-width: 768px) 200px, 280px'
-              }
+              sizes="(max-width: 768px) 90vw, 33vw"
             />
           </div>
         </div>
@@ -83,13 +93,11 @@ const Footer: React.FC = () => {
   const loadInfo = (id: string) => {
     setModalId(id);
     setShowModal(true);
-    document.body.style.overflow = 'hidden';
   };
 
   const closeModal = () => {
     setShowModal(false);
     setModalId('');
-    document.body.style.overflow = 'auto';
   };
 
   return (
@@ -98,12 +106,12 @@ const Footer: React.FC = () => {
         <div className="py-4">
           <div className="box-border min-w-[250px] max-w-6xl mx-auto px-4 flex flex-wrap justify-around gap-6">
             <FooterColumn
-              imgUrl="/contentimages/vnsh_money_back_guarantee_footer.webp"
+              imgUrl="/contentimages/MoneyBack.avif"
               title="60-Day Money Back Guarantee"
               text="No question asked 60 day refund or replacement guaranteed. If you are unhappy for any reason, get your money back. Rock solid guarantee..."
             />
             <FooterColumn
-              imgUrl="/contentimages/vnsh_small_business_footer.webp"
+              imgUrl="/contentimages/USFlag.avif"
               title="Thank You!"
               text="Your purchase supports the second amendment community and increases our ability to defend ourselves and remain free."
             />
@@ -124,26 +132,33 @@ const Footer: React.FC = () => {
         </div>
       </div>
 
-      {showModal && (
+      <div
+        className={`fixed inset-0 z-50 flex items-start justify-center transition-all duration-300 ease-in-out ${
+          showModal ? 'bg-black/50' : 'pointer-events-none bg-black/0'
+        }`}
+        style={{
+          paddingTop: '5rem',
+          paddingLeft: '1rem',
+          paddingRight: '1rem',
+        }}
+        onClick={closeModal}
+      >
         <div
-          className="fixed inset-0 bg-black bg-opacity-50 z-50 p-4 pt-20 flex items-start justify-center"
-          onClick={closeModal}
+          className={`bg-white rounded-lg max-w-6xl w-full max-h-[100vh] overflow-y-auto relative p-2 transform transition-all duration-300 ease-in-out ${
+            showModal ? 'translate-y-0 opacity-100' : 'translate-y-[-50px] opacity-0'
+          }`}
+          onClick={e => e.stopPropagation()}
         >
-          <div
-            className="bg-white rounded-lg max-w-6xl w-full max-h-[80vh] overflow-y-auto relative p-2"
-            onClick={e => e.stopPropagation()}
+          <button
+            className="absolute top-4 right-4 text-2xl text-black hover:text-black bg-transparent border-none hover:bg-transparent"
+            onClick={closeModal}
+            aria-label="Close modal"
           >
-            <button
-              className="absolute top-4 right-4 text-2xl text-black hover:text-black bg-transparent border-none hover:bg-transparent"
-              onClick={closeModal}
-              aria-label="Close modal"
-            >
-              &times;
-            </button>
-            <FooterModal modalId={modalId} closeModal={closeModal} />
-          </div>
+            &times;
+          </button>
+          <FooterModal modalId={modalId} closeModal={closeModal} />
         </div>
-      )}
+      </div>
     </footer>
   );
 };
